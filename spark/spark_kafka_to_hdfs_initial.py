@@ -86,5 +86,5 @@ spark.stop()
 #смотрим, что получилось
 #df = spark.read.parquet("meetup_stream_api_files/")
 
-#df.show(1, False
+#df.show(1, False)
 #df.count()
