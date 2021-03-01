@@ -9,7 +9,7 @@ spark = SparkSession.builder.appName("filkin_spark").getOrCreate()
 
 kafka_brokers = "bigdataanalytics-worker-0.novalocal:6667"
 
-# вычитываем всё, что есть в Кафке
+#вычитываем всё, что есть в Кафке
 raw_orders = spark.read. \
     format("kafka"). \
     option("kafka.bootstrap.servers", kafka_brokers). \
@@ -19,7 +19,7 @@ raw_orders = spark.read. \
 
 #raw_orders.show(1, False)
 
-# схема для разбора json из value
+#схема для разбора json из value
 schema = StructType([
     StructField('venue', StructType([
         StructField('venue_name', StringType(), True),
@@ -55,13 +55,13 @@ schema = StructType([
     ])),
 ])
 
-# смотрим "чистый" string
+#смотрим "чистый" string
 #string_orders = raw_orders \
 #    .select(F.col("value").cast("String").alias("value"))
 
 #string_orders.show(1, False)
 
-# парсим json из string используя schema
+#парсим json из string используя schema
 value_orders = raw_orders \
     .select(F.from_json(F.col("value").cast("String"), schema).alias("value"), "timestamp")
 
@@ -69,13 +69,14 @@ value_orders = raw_orders \
 
 #value_orders.printSchema()
 
-# раскрываем "nested" структуры в финальный датасет
+#раскрываем "nested" структуры в финальный датасет
 parsed_orders = value_orders.select("value.*", "timestamp").select("venue.*", "visibility", "response",
                                                       "guests", "member.*", "rsvp_id", "mtime",
                                                       "event.*", "group.*", F.col("timestamp").cast(DateType()).alias("date"))
 
 #parsed_orders.show(1, False)
 
+#сохраняем в формате parquet в hdfs
 parsed_orders.write.partitionBy("date").mode(saveMode="overwrite").parquet("meetup_stream_api_files/")
 
 spark.stop()
