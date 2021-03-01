@@ -82,3 +82,9 @@ parsed_orders = value_orders.select("value.*", "timestamp").select("venue.*", "v
 parsed_orders.write.partitionBy("date").mode(saveMode="overwrite").parquet("meetup_stream_api_files/")
 
 spark.stop()
+
+#смотрим, что получилось
+#df = spark.read.parquet("meetup_stream_api_files/")
+
+#df.show(1, False
+#df.count()
