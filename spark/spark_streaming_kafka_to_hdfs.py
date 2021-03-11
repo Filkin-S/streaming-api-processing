@@ -6,6 +6,7 @@
 
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
+from pyspark.sql.types import DateType
 import datetime
 
 spark = SparkSession.builder.appName("filkin_spark").getOrCreate()
