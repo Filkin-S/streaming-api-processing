@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #export SPARK_KAFKA_VERSION=0.10
 #/spark2.4/bin/pyspark --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.5 --driver-memory 512m --driver-cores 1 --master local[1]
-#/spark2.4/bin/spark-submit --driver-memory 512m --driver-cores 1 --master local[1] spark_kafka_to_hdfs_initial.py
+#/spark2.4/bin/spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.5 spark_kafka_to_hdfs_initial.py
 
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
