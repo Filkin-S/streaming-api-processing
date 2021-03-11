@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #export SPARK_KAFKA_VERSION=0.10
 #/spark2.4/bin/pyspark --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.5 --driver-memory 512m --driver-cores 1 --master local[1]
-#/spark2.4/bin/spark-submit --driver-memory 512m --driver-cores 1 --master local[1] spark_streaming_kafka_to_hdfs.py.py
+#/spark2.4/bin/spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.5 --driver-memory 512m --driver-cores 1 --master local[1] spark_streaming_kafka_to_hdfs.py
 
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
@@ -31,12 +31,15 @@ def file_sink(df, freq):
         .option("checkpointLocation", "meetup_checkpoint/") \
         .start()
 
+
 #в каждом микробатче фиксируем дату и пишем файлы в свою директорию, по датам
 def foreach_batch_function(df, epoch_id):
     load_time = datetime.datetime.now().strftime("%Y-%m-%d")
+    print("START BATCH LOADING. DATE = " + load_time)
     df.write \
       .mode("append") \
       .parquet("meetup_stream_api_files/raw/date=" + str(load_time))
+    print("FINISHED BATCH LOADING. DATE = " + load_time)
 
 
 stream = file_sink(string_orders, 60)
