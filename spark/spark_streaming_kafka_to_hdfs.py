@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #export SPARK_KAFKA_VERSION=0.10
 #/spark2.4/bin/pyspark --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.5 --driver-memory 512m --driver-cores 1 --master local[1]
-#/spark2.4/bin/spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.5 --driver-memory 512m --driver-cores 1 --master local[1] spark_streaming_kafka_to_hdfs.py
+#/spark2.4/bin/spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.5 --driver-memory 512m --driver-cores 1 --master local[1] /home/BD_256_sfilkin/streaming-api-processing/spark/spark_streaming_kafka_to_hdfs.py
 
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
@@ -43,7 +43,7 @@ def foreach_batch_function(df, epoch_id):
     print("FINISHED BATCH LOADING. DATE = " + load_time)
 
 
-stream = file_sink(string_orders, 60)
+stream = file_sink(string_orders, 300)
 
 #запускаем бесконечный цикл
 while(True):

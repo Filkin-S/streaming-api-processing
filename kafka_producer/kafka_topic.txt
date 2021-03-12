@@ -4,3 +4,4 @@
 
 /usr/hdp/3.1.4.0-315/kafka/bin/kafka-topics.sh --zookeeper bigdataanalytics-worker-0.novalocal:2181 --alter --config retention.ms=864000000 --topic meetup_topic
 
+/usr/hdp/3.1.4.0-315/kafka/bin/kafka-console-consumer.sh --topic meetup_topic --bootstrap-server bigdataanalytics-worker-0.novalocal:6667
