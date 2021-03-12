@@ -66,14 +66,14 @@ schema = StructType([
 
 #парсим json из string используя schema
 df_parsed = df_raw. \
-    select(F.from_json(F.col("value").cast("String"), schema).alias("value"), "date")
+    select(F.from_json(F.col("value").cast("String"), schema).alias("value"))
 
 
 #раскрываем "nested" структуры в финальный датасет
 df_processed = df_parsed.select("value.*", "date"). \
     select("venue.*", "visibility", "response",
            "guests", "member.*", "rsvp_id", "mtime",
-           "event.*", "group.*", "date")
+           "event.*", "group.*")
 
 
 #сохраняем в формате parquet в hdfs
