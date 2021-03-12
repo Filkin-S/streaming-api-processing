@@ -70,7 +70,7 @@ df_parsed = df_raw. \
 
 
 #раскрываем "nested" структуры в финальный датасет
-df_processed = df_parsed.select("value.*", "date"). \
+df_processed = df_parsed.select("value.*"). \
     select("venue.*", "visibility", "response",
            "guests", "member.*", "rsvp_id", "mtime",
            "event.*", "group.*")
