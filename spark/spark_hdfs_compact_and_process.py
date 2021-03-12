@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #export SPARK_KAFKA_VERSION=0.10
 #/spark2.4/bin/pyspark --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.5 --driver-memory 512m --driver-cores 1 --master local[1]
-#/spark2.4/bin/spark-submit --driver-memory 512m --driver-cores 1 --master local[1] spark_hdfs_compact_and_process.py
+#/spark2.4/bin/spark-submit --driver-memory 512m --driver-cores 1 --master local[1] /home/BD_256_sfilkin/streaming-api-processing/spark/spark_hdfs_compact_and_process.py
 
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
@@ -18,7 +18,10 @@ spark = SparkSession.builder.appName("filkin_spark").getOrCreate()
 
 # делаем compaction - уменьшаем количество файлов "сырых" данных предыдущего дня
 df_to_compact = spark.read.parquet(PATH_RAW + str(previous_day))
+df_to_compact.persist()
+df_to_compact.count()  #для активации персиста
 df_to_compact.repartition(1).write.mode("overwrite").parquet(PATH_RAW + str(previous_day))
+df_to_compact.unpersist()
 
 # обрабатываем (парсим json) "сырые" данные предыдущего дня
 
