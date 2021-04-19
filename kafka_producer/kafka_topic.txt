@@ -5,3 +5,9 @@
 /usr/hdp/3.1.4.0-315/kafka/bin/kafka-topics.sh --zookeeper bigdataanalytics-worker-0.novalocal:2181 --alter --config retention.ms=864000000 --topic meetup_topic
 
 /usr/hdp/3.1.4.0-315/kafka/bin/kafka-console-consumer.sh --topic meetup_topic --bootstrap-server bigdataanalytics-worker-0.novalocal:6667
+
+
+kafka-topics --create --zookeeper training.io:2181/kafka --replication-factor 1 --partitions 1 --topic meetup_topic
+kafka-topics --list --zookeeper training.io:2181/kafka
+kafka-console-producer --broker-list training.io:9092 --topic meetup_topic --producer-property acks=all
+kafka-console-consumer --bootstrap-server training.io:9092 --topic meetup_topic --from-beginning --partition 0

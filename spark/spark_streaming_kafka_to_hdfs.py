@@ -11,7 +11,7 @@ import datetime
 
 spark = SparkSession.builder.appName("filkin_spark").getOrCreate()
 
-kafka_brokers = "bigdataanalytics-worker-0.novalocal:6667"
+kafka_brokers = "training.io:9092"
 
 # подключаемся к Кафке в режиме стрима
 raw_orders = spark.readStream. \
